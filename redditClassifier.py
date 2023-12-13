@@ -106,21 +106,43 @@ def classifier_test(sentence):
     return subreddit
 
 def main():
-    print("Setting model..")
+    # Setting the model using the pre-trained word vectors
+    print("\nSetting model..")
     setModel(model)
-    print("Model has been set!")
+    print("Model has been set!\n")
 
+
+    # Training the classifier using the jsonlist file
     print("Training the classifier..")
+
     useDifferentJsonlist = input("Use a non-default jsonlist file? Enter 'Y' or 'N': ").upper()
+
     if(useDifferentJsonlist == "Y"):
         jsonlist = input("Enter the jsonlist file with the included file extension: ")
         classifier_train(jsonlist)
     else:
         classifier_train("redditComments_train.jsonlist")
-    print("Classifier has been trained!")
 
-    sentenceInput = "I enlisted and it was hell"
-    print("Sentence input: ", sentenceInput)
-    print("The predicted subreddit of the input sentence", classifier_test(sentenceInput))
+    print("Classifier has been trained!\n")
+
+
+    #Test the classifier
+    sentencesList = ["Nerf toys are so fun", "What darts does this use?", 
+                    "Patrolling the Mojave almost makes you wish for a nuclear winter.", "Welcome to life in the NAVY.", 
+                    "That's a fun little tune you're playing!", "What's the tuning on that song?",
+                    "This level was too difficult and fast pace for me.", "I think Luigi is a cutie."]
+    
+    print("A random sentence will be chosen from a list of sentences for classification.")
+
+    useOwnSentence = input("Use a non-default sentence for classification? Enter 'Y' or 'N': ").upper()
+
+    if(useOwnSentence == "Y"):
+        sentence = input("Enter your sentence for classification: ")
+        print("Sentence input: ", sentence)
+    else:
+        sentence = random.choice(sentencesList)
+        print("Random sentence chosen: ", sentence)
+
+    print("\nThe predicted subreddit of the input sentence", classifier_test(sentence))
 
 main()

@@ -63,8 +63,15 @@ def classifier_train(file):
     with open(file) as jsonFile:
         for lines in jsonFile:
             # Parse entire string of json file as a python object. Creates key-object : subreddit-body
-            line = json.loads(lines)
-            jsonData.append(line)
+            try:
+                line = json.loads(lines)
+                if("body" in line and "subreddit" in line):
+                    jsonData.append(line)
+                else:
+                    print(f"Ignoring invalid object: {line}")
+            except json.JSONDecodeError as err:
+                print(f"Ignoring invalid JSON: {lines}")
+                continue
 
     for objects in jsonData:
         comment = objects["body"]
@@ -104,7 +111,12 @@ def main():
     print("Model has been set!")
 
     print("Training the classifier..")
-    classifier_train("redditComments_train.jsonlist")
+    useDifferentJsonlist = input("Use a non-default jsonlist file? Enter 'Y' or 'N': ").upper()
+    if(useDifferentJsonlist == "Y"):
+        jsonlist = input("Enter the jsonlist file with the included file extension: ")
+        classifier_train(jsonlist)
+    else:
+        classifier_train("redditComments_train.jsonlist")
     print("Classifier has been trained!")
 
     sentenceInput = "I enlisted and it was hell"

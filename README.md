@@ -12,6 +12,13 @@ How it works:
 
     The classifier is then tested on sample sentences
 
+Required libraries:
+
+    - gensim
+    - scikit-learn
+    - scipy
+    - numpy
+
 IMPORTANT: 
 
     The default pre-trained word vector can be found and downloaded from "https://github.com/mmihaltz/word2vec-GoogleNews-vectors".
